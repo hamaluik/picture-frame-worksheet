@@ -6,6 +6,6 @@ export type TitleProps = {
 
 export function Title(props: TitleProps) {
     return (
-        <h1 class="font-bold text-2xl text-gray-800 dark:text-gray-100 print:text-black">{props.children}</h1>
+        <h1 class="font-bold text-2xl text-gray-800 dark:text-gray-100 print:text-black inline-flex flex-row items-center">{props.children}</h1>
     );
 };

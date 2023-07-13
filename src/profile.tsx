@@ -33,7 +33,7 @@ export function Profile() {
     
     return (
         <svg viewBox={`0 0 ${viewWidth} ${viewHeight}`}>
-            <path class="stroke-gray-800 dark:stroke-gray-100 print:stroke-black stroke-1 fill-none" d={commands} />
+            <path class="stroke-gray-800 dark:stroke-gray-100 print:stroke-black stroke-2 fill-none" d={commands} vector-effect="non-scaling-stroke" />
             <text
                 x={(marginH + (w / 2)) * scale}
                 y={(marginV) * scale - 6}

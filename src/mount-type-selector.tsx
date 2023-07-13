@@ -23,7 +23,7 @@ export function MountTypeSelector() {
     return (
         <div class="mb-4">
             <Label forId={selectId} isError={false}>Mounting Type</Label>
-            <select id={selectId} value={appState.mountType} onChange={onChange} class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline print:appearance-none print:text-black print:bg-white print:shadow-none print:outline-none print:rounded-none print:border-2">
+            <select id={selectId} value={appState.mountType} onChange={onChange} class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline print:appearance-none print:text-black print:bg-white print:shadow-none print:outline-none print:border-2">
                 <option value={MountType.Flush}>Flush</option>
                 <option value={MountType.Matted}>Matted</option>
                 <option value={MountType.Float}>Float</option>

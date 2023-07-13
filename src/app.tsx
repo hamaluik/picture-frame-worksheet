@@ -1,5 +1,5 @@
 import { useContext } from "preact/hooks";
-import { AppStateContext, DimDirection, MountType } from "./app-state";
+import { AppStateContext, MountType } from "./app-state";
 import { MountTypeSelector } from "./mount-type-selector";
 import { InputEntry } from "./input-entry";
 import { CalculationDisplay } from "./calculation-display";
@@ -8,6 +8,7 @@ import { Heading } from "./heading";
 import { Title } from "./title";
 import { Profile } from "./profile";
 import { Cutlist } from "./cutlist";
+import { Logo } from "./logo";
 
 export function App() {
     const appState = useContext(AppStateContext);
@@ -16,7 +17,10 @@ export function App() {
         <div class="flex flex-col w-screen items-center print:max-w-full">
             <div class="max-w-lg grid grid-cols-2 print:grid-cols-6 gap-2 p-2 print:max-w-full items-end">
                 <div class="col-span-2 print:col-span-6">
-                    <Title>Picture Frame Worksheet</Title>
+                    <Title>
+                        <Logo />
+                        <span>Picture Frame Worksheet</span>
+                    </Title>
                 </div>
                 <div class="col-span-2 print:col-span-6">
                     <Heading>Art Piece</Heading>
