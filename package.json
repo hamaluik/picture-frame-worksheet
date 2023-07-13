@@ -11,7 +11,8 @@
   "dependencies": {
     "@preact/signals": "^1.1.5",
     "fraction.js": "^4.2.0",
-    "preact": "^10.15.1"
+    "preact": "^10.15.1",
+    "vulgar-fractions": "^1.4.2"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.5.0",

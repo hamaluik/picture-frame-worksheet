@@ -1,6 +1,8 @@
 import { Signal } from "@preact/signals";
 import Fraction from "fraction.js";
-import { ChangeEvent, useId, useState } from "preact/compat";
+import { useId, useState } from "preact/compat";
+import { Label } from "./label";
+import { Input, TextAlign } from "./input";
 
 export type InputEntryProps = {
     label: string;
@@ -8,19 +10,15 @@ export type InputEntryProps = {
 }
 
 export function InputEntry(props: InputEntryProps) {
-    const [displayedValue, setDisplayedValue] = useState(props.dim.value.toFraction(true));
     const [isError, setIsError] = useState(false);
 
-    let onInput = (evt: ChangeEvent<HTMLInputElement>) => {
-        const target: HTMLInputElement = evt.target as HTMLInputElement;
-        if(target === null) return;
-        setDisplayedValue(target.value);
+    let onInput = (inp: string) => {
         try {
-            props.dim.value = new Fraction(target.value);
+            props.dim.value = new Fraction(inp);
             setIsError(false);
         }
         catch(e) {
-            console.error(e);
+            console.warn("Error parsing fraction", e);
             setIsError(true);
         }
     };
@@ -29,8 +27,8 @@ export function InputEntry(props: InputEntryProps) {
     
    return (
         <div class="mb-4">
-            <label for={inputId} class={`block ${isError ? 'text-red-700' : 'text-gray-700'} text-sm font-bold mb-2`}>{props.label}</label>
-            <input id={inputId} type="text" value={displayedValue} onInput={onInput} class={`shadow appearance-none border rounded w-full py-2 px-3 ${isError ? 'text-red-700' : 'text-gray-700'} leading-tight focus:outline-none focus:shadow-outline`} />
+            <Label forId={inputId} isError={isError}>{props.label}</Label>
+            <Input id={inputId} initialValue={props.dim.value.toFraction(true)} onInput={onInput} isError={isError} align={TextAlign.Right} />
         </div>
    ); 
 }

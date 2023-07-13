@@ -1187,6 +1187,11 @@ vite@^4.4.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
+vulgar-fractions@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/vulgar-fractions/-/vulgar-fractions-1.4.2.tgz#03ea548d2d5b6ed87423f30f1f486071880c27fe"
+  integrity sha512-AjjhrBxEwWzgP1ypWEq3MsskM4rR8ONG5FAOF/Ru8U8U22DqL0lZ0nVPoivUA72//cgd4dntpGAzV9E17HcP5A==
+
 wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
