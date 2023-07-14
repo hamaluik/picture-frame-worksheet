@@ -28,7 +28,7 @@ export function InputEntry(props: InputEntryProps) {
    return (
         <div class="mb-4">
             <Label forId={inputId} isError={isError}>{props.label}</Label>
-            <Input id={inputId} initialValue={props.dim.value.toFraction(true)} onInput={onInput} isError={isError} align={TextAlign.Right} />
+            <Input id={inputId} initialValue={props.dim.value.toFraction(true)} value={props.dim.value.toFraction(true)} onInput={onInput} isError={isError} align={TextAlign.Right} />
         </div>
    ); 
 }

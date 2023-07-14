@@ -4,6 +4,8 @@ import { Input } from "./input";
 
 export type TextEntryProps = {
     label: string;
+    onInput?: (input: string) => void;
+    value?: string;
 }
 
 export function TextEntry(props: TextEntryProps) {
@@ -12,7 +14,7 @@ export function TextEntry(props: TextEntryProps) {
    return (
         <div class="mb-4">
             <Label forId={inputId} isError={false}>{props.label}</Label>
-            <Input id={inputId} initialValue="" isError={false} />
+            <Input id={inputId} initialValue={props.value ?? ""} onInput={props.onInput} value={props.value} isError={false} />
         </div>
    ); 
 }

@@ -1,6 +1,7 @@
 import { signal, computed, Signal } from '@preact/signals';
 import Fraction from 'fraction.js';
 import { createContext } from 'preact';
+import { Database } from './db';
 
 export enum DimDirection {
     Horizontal = "horizontal",
@@ -40,6 +41,10 @@ export function createDimState(baseDim: number): DimState {
 }
 
 export type AppState = {
+    worksheetID: Signal<number | undefined>;
+    worksheetLabel: Signal<string>;
+    title: Signal<string>;
+    artist: Signal<string>;
     mountType: Signal<MountType>;
     width: DimState;
     height: DimState;
@@ -48,9 +53,17 @@ export type AppState = {
     lengthBuffer: Signal<Fraction>;
     horizontalLength: Signal<Fraction>;
     verticalLength: Signal<Fraction>;
+
+    installPrompt: Signal<Event | undefined>;
+
+    db: Signal<Database | undefined>;
 };
 
 export function createAppState(): AppState {
+    const worksheetID = signal(undefined);
+    const worksheetLabel = signal("");
+    const title = signal("");
+    const artist = signal("");
     const mountType = signal(MountType.Flush);
     const width = createDimState(6);
     const height = createDimState(4);
@@ -64,7 +77,14 @@ export function createAppState(): AppState {
         return height.innerDim.value.add(frameWidth.value.mul(2).add(lengthBuffer.value));
     });
 
-    return { mountType, width, height, frameWidth, frameDepth, lengthBuffer, horizontalLength, verticalLength };
+    const installPrompt = signal(undefined);
+
+    const db = signal<Database | undefined>(undefined);
+    Database.openDB()
+        .then((d) => db.value = d)
+        .catch((err) => console.error(`Failed to open DB: ${err}`));
+
+    return { worksheetID, worksheetLabel, title, artist, mountType, width, height, frameWidth, frameDepth, lengthBuffer, horizontalLength, verticalLength, installPrompt, db};
 };
 
 export const AppStateContext = createContext(createAppState());

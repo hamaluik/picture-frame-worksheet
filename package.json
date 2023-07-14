@@ -12,6 +12,7 @@
   "dependencies": {
     "@preact/signals": "^1.1.5",
     "fraction.js": "^4.2.0",
+    "idb-keyval": "^6.2.1",
     "preact": "^10.15.1",
     "vite-plugin-pwa": "^0.16.4",
     "vulgar-fractions": "^1.4.2"

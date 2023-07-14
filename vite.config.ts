@@ -11,7 +11,7 @@ export default defineConfig({
             name: 'Picture Frame Worksheet',
             short_name: 'PFW',
             description: 'A simple tool for calculating picture frame dimensions.',
-            theme_color: '#ffffff',
+            theme_color: '#111827',
             icons: [
                 {
                     src: 'pwa-64x64.png',
