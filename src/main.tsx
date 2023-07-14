@@ -4,13 +4,7 @@ import { App } from './app.tsx'
 import './index.css'
 import { registerSW} from "virtual:pwa-register";
 
-if('serviceWorker' in navigator) {
-    const updateSW = registerSW({
-    	onNeedRefresh: () => {
-            updateSW(true);
-    	}
-    });
-}
+registerSW({immediate: true});
 
 render(
     <AppStateContext.Provider value={createAppState()}>
