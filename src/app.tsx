@@ -44,6 +44,7 @@ export function App() {
                         <Title>
                             <Logo />
                             <span>Picture Frame Worksheet</span>
+                            <div class="text-grey-500 text-sm flex-1 print:hidden">({ __COMMIT_HASH__ })</div>
                         </Title>
                     </div>
                         { appState.installPrompt.value !== undefined
