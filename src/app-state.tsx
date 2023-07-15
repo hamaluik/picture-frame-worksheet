@@ -2,6 +2,7 @@ import { signal, computed, Signal } from '@preact/signals';
 import Fraction from 'fraction.js';
 import { createContext } from 'preact';
 import { Database } from './db';
+import { parseVulgars } from 'vulgar-fractions';
 
 export enum DimDirection {
     Horizontal = "horizontal",
@@ -14,25 +15,112 @@ export enum MountType {
     Float = "float",
 };
 
+export class Dimension {
+    #input: string = "0";
+    #isError: boolean = false;
+    #value: Fraction = new Fraction(0);
+
+    constructor(val: string | number | Fraction) {
+        if(val === null || val === undefined) return;
+
+        const set = (inp: string) => {
+                this.#input = inp;
+                try {
+                    this.#value = new Fraction(inp.trim());
+                    this.#isError = false;
+                }
+                catch {
+                    this.#value = new Fraction(0);
+                    this.#isError = true;
+                }
+        };
+
+        switch(typeof val) {
+            case "string": {
+                set(val);
+            };
+            break;
+            case "number": {
+                set(val.toString());
+            };
+            break;
+            case "object": {
+                if(val instanceof Fraction) {
+                    this.#value = val;
+                    this.#isError = false;
+                    this.#input = val.toFraction(true);
+                }
+                else {
+                    console.error("Invalid type to set Dimension value with", val);
+                }
+            };
+            break;
+            default: {
+                console.error("Invalid type to set Dimension value with", val);
+            };
+        };
+    }
+
+    get input(): string {
+        return this.#input;
+    }
+
+    get isError(): boolean {
+        return this.#isError;
+    }
+
+    get display(): string {
+        if(this.#isError) {
+            return this.#input;
+        }
+        else {
+            return parseVulgars(this.#value.toFraction(true));
+        }
+    }
+
+    get decimal(): number {
+        if(this.#isError) return 0.0;
+        return this.#value.valueOf();
+    }
+
+    public add(other: Dimension): Dimension {
+        const newDim =  new Dimension(this.#value.add(other.#value));
+        newDim.#isError = this.isError || other.isError;
+        return newDim;
+    }
+
+    public sub(other: Dimension): Dimension {
+        const newDim = new Dimension(this.#value.sub(other.#value));
+        newDim.#isError = this.isError || other.isError;
+        return newDim;
+    }
+
+    public mul(multiplier: number): Dimension {
+        const newDim = new Dimension(this.#value.mul(multiplier));
+        newDim.#isError = this.isError;
+        return newDim;
+    }
+};
+
 export type DimState = {
-    dim: Signal<string>,
-    revealPre: Signal<string>,
-    revealPost: Signal<string>,
-    mountDim: Signal<Fraction>,
-    innerDim: Signal<Fraction>,
+    dim: Signal<Dimension>,
+    revealPre: Signal<Dimension>,
+    revealPost: Signal<Dimension>,
+    mountDim: Signal<Dimension>,
+    innerDim: Signal<Dimension>,
 };
 
 export function createDimState(baseDim: string): DimState {
-    const dim = signal(baseDim);
-    const revealPre = signal("0");
-    const revealPost = signal("0");
+    const dim = signal(new Dimension(baseDim));
+    const revealPre = signal(new Dimension("0"));
+    const revealPost = signal(new Dimension("0"));
     const mountDim = computed(() => {
-        return new Fraction(dim.value).add(new Fraction(revealPre.value)).add(new Fraction(revealPost.value));
+        return dim.value.add(revealPre.value).add(revealPost.value);
     });
     const innerDim = computed(() => {
-        const result = mountDim.value.sub(new Fraction(1, 8));
-        if(result < new Fraction(0)) {
-            return new Fraction(0);
+        const result = mountDim.value.sub(new Dimension("1/8"));
+        if(result.decimal < 0.0) {
+            return new Dimension(0.0);
         }
         return result;
     })
@@ -48,11 +136,11 @@ export type AppState = {
     mountType: Signal<MountType>;
     width: DimState;
     height: DimState;
-    frameWidth: Signal<string>;
-    frameDepth: Signal<string>;
-    lengthBuffer: Signal<Fraction>;
-    horizontalLength: Signal<Fraction>;
-    verticalLength: Signal<Fraction>;
+    frameWidth: Signal<Dimension>;
+    frameDepth: Signal<Dimension>;
+    lengthBuffer: Signal<Dimension>;
+    horizontalLength: Signal<Dimension>;
+    verticalLength: Signal<Dimension>;
 
     installPrompt: Signal<Event | undefined>;
 
@@ -67,14 +155,14 @@ export function createAppState(): AppState {
     const mountType = signal(MountType.Flush);
     const width = createDimState("6");
     const height = createDimState("4");
-    const frameWidth = signal("1");
-    const frameDepth = signal("3/4");
-    const lengthBuffer = signal(new Fraction(1.0));
+    const frameWidth = signal(new Dimension("1"));
+    const frameDepth = signal(new Dimension("3/4"));
+    const lengthBuffer = signal(new Dimension(1.0));
     const horizontalLength = computed(() => {
-        return width.innerDim.value.add(new Fraction(frameWidth.value).mul(2).add(lengthBuffer.value));
+        return width.innerDim.value.add(frameWidth.value.mul(2).add(lengthBuffer.value));
     });
     const verticalLength = computed(() => {
-        return height.innerDim.value.add(new Fraction(frameWidth.value).mul(2).add(lengthBuffer.value));
+        return height.innerDim.value.add(frameWidth.value.mul(2).add(lengthBuffer.value));
     });
 
     const installPrompt = signal(undefined);

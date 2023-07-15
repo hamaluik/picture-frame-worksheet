@@ -22,14 +22,14 @@ export function SaveModal(props: SaveModalProps) {
                 title: appState.title.value,
                 artist: appState.artist.value,
                 mountType: appState.mountType.value,
-                width: appState.width.dim.value,
-                revealLeft: appState.width.revealPre.value,
-                revealRight: appState.width.revealPost.value,
-                height: appState.height.dim.value,
-                revealTop: appState.height.revealPre.value,
-                revealBottom: appState.height.revealPost.value,
-                frameWidth: appState.frameWidth.value,
-                frameDepth: appState.frameDepth.value,
+                width: appState.width.dim.value.input,
+                revealLeft: appState.width.revealPre.value.input,
+                revealRight: appState.width.revealPost.value.input,
+                height: appState.height.dim.value.input,
+                revealTop: appState.height.revealPre.value.input,
+                revealBottom: appState.height.revealPost.value.input,
+                frameWidth: appState.frameWidth.value.input,
+                frameDepth: appState.frameDepth.value.input,
             }
         };
         

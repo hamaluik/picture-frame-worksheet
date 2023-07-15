@@ -1,5 +1,5 @@
 import { useContext, useState } from "preact/hooks";
-import { AppStateContext, MountType } from "./app-state";
+import { AppStateContext, Dimension, MountType } from "./app-state";
 import { MountTypeSelector } from "./mount-type-selector";
 import { InputEntry } from "./input-entry";
 import { CalculationDisplay } from "./calculation-display";
@@ -26,14 +26,14 @@ export function App() {
         appState.title.value = "";
         appState.artist.value = "";
         appState.mountType.value = MountType.Flush;
-        appState.width.dim.value = "6";
-        appState.width.revealPre.value = "0";
-        appState.width.revealPost.value = "0";
-        appState.height.dim.value = "4";
-        appState.height.revealPre.value = "0";
-        appState.height.revealPost.value = "0";
-        appState.frameWidth.value = "1"
-        appState.frameDepth.value = "3/4";
+        appState.width.dim.value = new Dimension("6");
+        appState.width.revealPre.value = new Dimension("0");
+        appState.width.revealPost.value = new Dimension("0");
+        appState.height.dim.value = new Dimension("4");
+        appState.height.revealPre.value = new Dimension("0");
+        appState.height.revealPost.value = new Dimension("0");
+        appState.frameWidth.value = new Dimension("1");
+        appState.frameDepth.value = new Dimension("3/4");
     };
 
     return (

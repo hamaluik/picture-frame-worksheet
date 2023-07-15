@@ -13,7 +13,7 @@ export function TextEntry(props: TextEntryProps) {
 
    return (
         <div class="mb-4">
-            <Label forId={inputId} isError={false}>{props.label}</Label>
+            <Label id={inputId}>{props.label}</Label>
             <Input id={inputId} onInput={props.onInput} value={props.value} />
         </div>
    ); 

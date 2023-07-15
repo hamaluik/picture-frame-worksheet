@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "preact/hooks";
 import { Modal } from "./modal";
-import { AppStateContext } from "./app-state";
+import { AppStateContext, Dimension } from "./app-state";
 import { WorksheetRecord } from "./db";
 import { Icon, IconType } from "./icon";
 
@@ -30,14 +30,14 @@ export function LoadModal(props: LoadModalProps) {
         appState.title.value = worksheet.data.title;
         appState.artist.value = worksheet.data.artist;
         appState.mountType.value = worksheet.data.mountType;
-        appState.width.dim.value = worksheet.data.width;
-        appState.width.revealPre.value = worksheet.data.revealLeft;
-        appState.width.revealPost.value = worksheet.data.revealRight;
-        appState.height.dim.value = worksheet.data.height;
-        appState.height.revealPre.value = worksheet.data.revealTop;
-        appState.height.revealPost.value = worksheet.data.revealBottom;
-        appState.frameWidth.value = worksheet.data.frameWidth;
-        appState.frameDepth.value = worksheet.data.frameDepth;
+        appState.width.dim.value = new Dimension(worksheet.data.width);
+        appState.width.revealPre.value = new Dimension(worksheet.data.revealLeft);
+        appState.width.revealPost.value = new Dimension(worksheet.data.revealRight);
+        appState.height.dim.value = new Dimension(worksheet.data.height);
+        appState.height.revealPre.value = new Dimension(worksheet.data.revealTop);
+        appState.height.revealPost.value = new Dimension(worksheet.data.revealBottom);
+        appState.frameWidth.value = new Dimension(worksheet.data.frameWidth);
+        appState.frameDepth.value = new Dimension(worksheet.data.frameDepth);
         
         props.setShow(false);
     };
