@@ -35,7 +35,7 @@ export function Modal(props: ModalProps) {
                 <h2 class="text-xl font-bold flex-1">{props.title}</h2>
                 <button class="hover:scale-110" onClick={onClose}><Icon type={IconType.Close} /></button>
             </div>
-            <div class="px-4 py-2 dark:bg-gray-900 dark:text-gray-100 text-gray-800">{props.children}</div>
+            <div class="px-4 pt-2 pb-4 dark:bg-gray-900 dark:text-gray-100 text-gray-800">{props.children}</div>
         </dialog>
     );
 };

@@ -3,13 +3,12 @@ import preact from '@preact/preset-vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import * as child from "child_process";
 
-const commithash = child.execSync('git rev-parse --short HEAD').toString();
+const commithash = child.execSync('git rev-parse --short HEAD').toString().trim();
+const date = child.execSync('TZ=America/Edmonton date --rfc-3339=seconds').toString().trim();
+process.env.VITE_VERSION_STR = commithash + ' / ' + date;
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    define: {
-        __COMMIT_HASH__: JSON.stringify(commithash.trim()),
-    },
     plugins: [preact(), VitePWA({
         registerType: 'autoUpdate',
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],

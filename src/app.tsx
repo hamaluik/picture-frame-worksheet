@@ -17,6 +17,7 @@ import Fraction from "fraction.js";
 
 export function App() {
     const appState = useContext(AppStateContext);
+    const version = import.meta.env.VITE_VERSION_STR;
 
     const [ showLoadModal, setShowLoadModal ] = useState(false);
     const [ showSaveModal, setShowSaveModal ] = useState(false);
@@ -44,7 +45,6 @@ export function App() {
                         <Title>
                             <Logo />
                             <span>Picture Frame Worksheet</span>
-                            <div class="text-grey-500 text-sm flex-1 print:hidden">({ __COMMIT_HASH__ })</div>
                         </Title>
                     </div>
                         { appState.installPrompt.value !== undefined
@@ -89,6 +89,7 @@ export function App() {
                     <div class="col-span-2 print:col-span-3 self-start"><Profile /></div>
                 </div>
             </div>
+            <div class="p-2 text-gray-500 dark:text-gray-400 text-sm flex flex-row justify-end print:hidden">({version})</div>
             <LoadModal show={showLoadModal} setShow={setShowLoadModal} />
             <SaveModal show={showSaveModal} setShow={setShowSaveModal} />
         </>
