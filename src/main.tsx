@@ -6,15 +6,8 @@ import { registerSW} from "virtual:pwa-register";
 
 registerSW({immediate: true});
 
-const initialState = createAppState();
-window.addEventListener('beforeinstallprompt', (e: Event) => {
-    e.preventDefault();
-    initialState.installPrompt.value = e;
-    console.debug('before install prompt fired');
-});
-
 render(
-    <AppStateContext.Provider value={initialState}>
+    <AppStateContext.Provider value={createAppState()}>
         <App/>
     </AppStateContext.Provider>
 , document.getElementById('app')!)

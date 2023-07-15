@@ -142,8 +142,6 @@ export type AppState = {
     horizontalLength: Signal<Dimension>;
     verticalLength: Signal<Dimension>;
 
-    installPrompt: Signal<Event | undefined>;
-
     db: Signal<Database | undefined>;
 };
 
@@ -165,14 +163,12 @@ export function createAppState(): AppState {
         return height.innerDim.value.add(frameWidth.value.mul(2).add(lengthBuffer.value));
     });
 
-    const installPrompt = signal(undefined);
-
     const db = signal<Database | undefined>(undefined);
     Database.openDB()
         .then((d) => db.value = d)
         .catch((err) => console.error(`Failed to open DB: ${err}`));
 
-    return { worksheetID, worksheetLabel, title, artist, mountType, width, height, frameWidth, frameDepth, lengthBuffer, horizontalLength, verticalLength, installPrompt, db};
+    return { worksheetID, worksheetLabel, title, artist, mountType, width, height, frameWidth, frameDepth, lengthBuffer, horizontalLength, verticalLength, db};
 };
 
 export const AppStateContext = createContext(createAppState());

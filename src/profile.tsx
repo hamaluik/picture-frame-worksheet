@@ -11,8 +11,8 @@ export function Profile() {
     const d = frameDepth.decimal;
     const scale = 100 / Math.max(w, d);
 
-    const marginH = 0.25 * Math.max(w, d);
-    const marginV = 0.25 * Math.max(w, d);
+    const marginH = 0.125 * Math.max(w, d);
+    const marginV = 0.125 * Math.max(w, d);
 
     const viewWidth = (w + (marginH * 2)) * scale;
     const viewHeight = (d + (marginV * 2)) * scale;

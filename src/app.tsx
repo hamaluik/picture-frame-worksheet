@@ -5,7 +5,6 @@ import { InputEntry } from "./input-entry";
 import { CalculationDisplay } from "./calculation-display";
 import { TextEntry } from "./text-entry";
 import { Heading } from "./heading";
-import { Title } from "./title";
 import { Profile } from "./profile";
 import { Cutlist } from "./cutlist";
 import { Logo } from "./logo";
@@ -41,18 +40,11 @@ export function App() {
             <div class="flex flex-col w-screen items-center print:max-w-full">
                 <div class="max-w-lg grid grid-cols-2 print:grid-cols-6 gap-2 p-2 print:max-w-full items-end">
                     <div class="col-span-2 print:col-span-6">
-                        <Title>
+                        <h1 class="font-bold text-2xl text-gray-800 dark:text-gray-100 print:text-black inline-flex flex-row gap-2 items-center">
                             <Logo />
-                            <span>Picture Frame Worksheet</span>
-                        </Title>
+                            Picture Frame Worksheet
+                        </h1>
                     </div>
-                        { appState.installPrompt.value !== undefined
-                            ?
-                                <div class="col-span-2 print:hidden flex flex-row justify-stretch gap-2 items-center">
-                                    <Button><Icon type={IconType.Load}/> Install</Button>
-                                </div>
-                            : null
-                        }
                     <div class="col-span-2 print:hidden flex flex-row justify-stretch gap-2 items-center">
                         <Button onClick={newWorksheet}><Icon type={IconType.New}/> New</Button>
                         <Button onClick={() => setShowLoadModal(true)}><Icon type={IconType.Load}/> Load</Button>
@@ -72,8 +64,8 @@ export function App() {
                     {appState.mountType.value != MountType.Flush ? <InputEntry label="Reveal Top" dim={appState.height.revealPre} /> : null}
                     {appState.mountType.value != MountType.Flush ? <InputEntry label="Reveal Right" dim={appState.width.revealPost} /> : null}
                     {appState.mountType.value != MountType.Flush ? <InputEntry label="Reveal Bottom" dim={appState.height.revealPost} /> : null}
-                    <CalculationDisplay label="Mount Width" dim={appState.width.mountDim} />
-                    <CalculationDisplay label="Mount Height" dim={appState.height.mountDim} />
+                    {appState.mountType.value != MountType.Flush ? <CalculationDisplay label="Mount Width" dim={appState.width.mountDim} /> : null}
+                    {appState.mountType.value != MountType.Flush ? <CalculationDisplay label="Mount Height" dim={appState.height.mountDim} /> : null}
                     <CalculationDisplay label="Inner Width" dim={appState.width.innerDim} />
                     <CalculationDisplay label="Inner Height" dim={appState.height.innerDim} />
                     <div class="col-span-2 print:col-span-6">
@@ -88,7 +80,10 @@ export function App() {
                     <div class="col-span-2 print:col-span-3 self-start"><Profile /></div>
                 </div>
             </div>
-            <div class="p-2 text-gray-500 dark:text-gray-400 text-sm flex flex-row justify-end print:hidden">({version})</div>
+            <footer class="p-2 text-gray-500 dark:text-gray-400 text-sm flex flex-row justify-between print:hidden">
+                <div>Based off of <a class="underline hover:decoration-dashed" href="https://www.almfab.com/store/p/free-picture-frame-worksheet">Michael Alm's worksheet</a>. Report issues and view the source <a class="underline hover:decoration-dashed" href="https://github.com/hamaluik/picture-frame-worksheet">on GitHub</a>.</div>
+                <div>(version {version})</div>
+            </footer>
             <LoadModal show={showLoadModal} setShow={setShowLoadModal} />
             <SaveModal show={showSaveModal} setShow={setShowSaveModal} />
         </>
