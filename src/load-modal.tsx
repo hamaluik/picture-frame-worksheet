@@ -3,7 +3,6 @@ import { Modal } from "./modal";
 import { AppStateContext } from "./app-state";
 import { WorksheetRecord } from "./db";
 import { Icon, IconType } from "./icon";
-import Fraction from "fraction.js";
 
 export type LoadModalProps = {
     show: boolean;
@@ -31,14 +30,14 @@ export function LoadModal(props: LoadModalProps) {
         appState.title.value = worksheet.data.title;
         appState.artist.value = worksheet.data.artist;
         appState.mountType.value = worksheet.data.mountType;
-        appState.width.dim.value = new Fraction(worksheet.data.width);
-        appState.width.revealPre.value = new Fraction(worksheet.data.revealLeft);
-        appState.width.revealPost.value = new Fraction(worksheet.data.revealRight);
-        appState.height.dim.value = new Fraction(worksheet.data.height);
-        appState.height.revealPre.value = new Fraction(worksheet.data.revealTop);
-        appState.height.revealPost.value = new Fraction(worksheet.data.revealBottom);
-        appState.frameWidth.value = new Fraction(worksheet.data.frameWidth);
-        appState.frameDepth.value = new Fraction(worksheet.data.frameDepth);
+        appState.width.dim.value = worksheet.data.width;
+        appState.width.revealPre.value = worksheet.data.revealLeft;
+        appState.width.revealPost.value = worksheet.data.revealRight;
+        appState.height.dim.value = worksheet.data.height;
+        appState.height.revealPre.value = worksheet.data.revealTop;
+        appState.height.revealPost.value = worksheet.data.revealBottom;
+        appState.frameWidth.value = worksheet.data.frameWidth;
+        appState.frameDepth.value = worksheet.data.frameDepth;
         
         props.setShow(false);
     };

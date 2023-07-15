@@ -6,19 +6,20 @@ import { Input, TextAlign } from "./input";
 
 export type InputEntryProps = {
     label: string;
-    dim: Signal<Fraction>;
+    dim: Signal<string>;
 }
 
 export function InputEntry(props: InputEntryProps) {
     const [isError, setIsError] = useState(false);
 
     let onInput = (inp: string) => {
+        props.dim.value = inp;
         try {
-            props.dim.value = new Fraction(inp);
+            new Fraction(inp);
             setIsError(false);
         }
         catch(e) {
-            console.warn("Error parsing fraction", e);
+            // console.warn("Error parsing fraction", e);
             setIsError(true);
         }
     };
@@ -28,7 +29,7 @@ export function InputEntry(props: InputEntryProps) {
    return (
         <div class="mb-4">
             <Label forId={inputId} isError={isError}>{props.label}</Label>
-            <Input id={inputId} initialValue={props.dim.value.toFraction(true)} value={props.dim.value.toFraction(true)} onInput={onInput} isError={isError} align={TextAlign.Right} />
+            <Input id={inputId} value={props.dim.value} onInput={onInput} isError={isError} align={TextAlign.Right} />
         </div>
    ); 
 }

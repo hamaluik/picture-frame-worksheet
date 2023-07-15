@@ -13,7 +13,6 @@ import { Button } from "./button";
 import { Icon, IconType } from "./icon";
 import { LoadModal } from "./load-modal";
 import { SaveModal } from "./save-modal";
-import Fraction from "fraction.js";
 
 export function App() {
     const appState = useContext(AppStateContext);
@@ -27,14 +26,14 @@ export function App() {
         appState.title.value = "";
         appState.artist.value = "";
         appState.mountType.value = MountType.Flush;
-        appState.width.dim.value = new Fraction(6);
-        appState.width.revealPre.value = new Fraction(0);
-        appState.width.revealPost.value = new Fraction(0);
-        appState.height.dim.value = new Fraction(4);
-        appState.height.revealPre.value = new Fraction(0);
-        appState.height.revealPost.value = new Fraction(0);
-        appState.frameWidth.value = new Fraction(1);
-        appState.frameDepth.value = new Fraction(3, 4);
+        appState.width.dim.value = "6";
+        appState.width.revealPre.value = "0";
+        appState.width.revealPost.value = "0";
+        appState.height.dim.value = "4";
+        appState.height.revealPre.value = "0";
+        appState.height.revealPost.value = "0";
+        appState.frameWidth.value = "1"
+        appState.frameDepth.value = "3/4";
     };
 
     return (

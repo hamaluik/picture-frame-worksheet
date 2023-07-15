@@ -15,7 +15,7 @@ export function CalculationDisplay(props: CalculationDisplayProps) {
    return (
         <div class="mb-4">
             <Label forId={inputId}>{props.label}</Label>
-            <Input id={inputId} isError={false} readonly={true} initialValue={props.dim.value.toFraction(true)} value={props.dim.value.toFraction(true)} align={TextAlign.Right} />
+            <Input id={inputId} readonly={true} onInput={(_)=>{}} value={props.dim.value.toFraction(true)} align={TextAlign.Right} />
         </div>
    ); 
 }

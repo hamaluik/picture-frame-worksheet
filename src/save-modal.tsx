@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useContext } from "preact/hooks";
 import { Modal } from "./modal";
 import { AppStateContext } from "./app-state";
 import { Button } from "./button";
@@ -13,28 +13,23 @@ export type SaveModalProps = {
 export function SaveModal(props: SaveModalProps) {
     const appState = useContext(AppStateContext);
 
-    const [ label, setLabel ] = useState(appState.worksheetLabel.value);
-    useEffect(() => {
-        setLabel(appState.worksheetLabel.value);
-    });
-
     const onSave = () => {
         const worksheet: WorksheetRecord = {
             id: appState.worksheetID.value,
-            label,
+            label: appState.worksheetLabel.value,
             modified: Date.now(),
             data: {
                 title: appState.title.value,
                 artist: appState.artist.value,
                 mountType: appState.mountType.value,
-                width: appState.width.dim.value.toFraction(true),
-                revealLeft: appState.width.revealPre.value.toFraction(true),
-                revealRight: appState.width.revealPost.value.toFraction(true),
-                height: appState.height.dim.value.toFraction(true),
-                revealTop: appState.height.revealPre.value.toFraction(true),
-                revealBottom: appState.height.revealPost.value.toFraction(true),
-                frameWidth: appState.frameWidth.value.toFraction(true),
-                frameDepth: appState.frameDepth.value.toFraction(true),
+                width: appState.width.dim.value,
+                revealLeft: appState.width.revealPre.value,
+                revealRight: appState.width.revealPost.value,
+                height: appState.height.dim.value,
+                revealTop: appState.height.revealPre.value,
+                revealBottom: appState.height.revealPost.value,
+                frameWidth: appState.frameWidth.value,
+                frameDepth: appState.frameDepth.value,
             }
         };
         
@@ -42,7 +37,6 @@ export function SaveModal(props: SaveModalProps) {
             appState.db.value!.createWorksheet(worksheet)
                 .then((newId) => {
                     appState.worksheetID.value = newId;
-                    appState.worksheetLabel.value = label;
                     props.setShow(false);
                 })
                 .catch((err) => {
@@ -53,7 +47,6 @@ export function SaveModal(props: SaveModalProps) {
         else {
             appState.db.value!.updateWorksheet(worksheet.id!, worksheet)
                 .then(() => {
-                    appState.worksheetLabel.value = label;
                     props.setShow(false);
                 })
                 .catch((err) => {
@@ -67,7 +60,7 @@ export function SaveModal(props: SaveModalProps) {
         <Modal title="Save" show={props.show} onClose={() => props.setShow(false)}>
             <form method="dialog" onSubmit={onSave}>
                 <div class="flex flex-col gap-2 justify-start items-stretch">
-                    <TextEntry label="Label" value={label} onInput={(v) => setLabel(v)} />
+                    <TextEntry label="Label" value={appState.worksheetLabel.value} onInput={(v) => appState.worksheetLabel.value = v} />
                     <div class="flex flex-row gap-2 justify-end items-stretch">
                         <Button onClick={onSave}>Save</Button>
                     </div>
