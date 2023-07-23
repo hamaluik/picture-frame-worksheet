@@ -1,38 +1,44 @@
-import { IErrorDetail, createCheckers } from "ts-interface-checker";
-import { WorksheetRecord } from "../types/WorksheetRecord";
-import MountTypeTI from "../types/MountType-ti";
-import WorksheetDataTI from "../types/WorksheetData-ti";
-import WorksheetRecordTI from "../types/WorksheetRecord-ti";
-import { parse, stringify } from "jsurl2";
-
-const { WorksheetRecordChecker } = createCheckers(WorksheetRecordTI, WorksheetDataTI, MountTypeTI);
+import { WorksheetRecord, validate as validateWorksheetRecord } from "../types/WorksheetRecord";
 
 export type ShareLoadResult = {
     record?: WorksheetRecord,
-    errors?: IErrorDetail[],
+    error?: any,
 };
 
 export function tryLoadShare(): ShareLoadResult | null {
     if(!document.location.hash) return null;
 
+    let sharedRecord: WorksheetRecord;
     try {
-        const sharedRecord: WorksheetRecord = parse(document.location.hash, { deURI: true });
-        const validationErrors = WorksheetRecordChecker.validate(sharedRecord);
-        if(validationErrors === null) return { record: sharedRecord };
-        return { errors: validationErrors };
+        sharedRecord = parse(document.location.hash.substring(1));
     }
     catch(e) {
-        console.warn("Failed to load shared record", {
+        console.warn("Failed to parsed shared record", {
             record: document.location.hash,
             error: e,
         });
+        return null;
     }
-    return null
+    try {
+        validateWorksheetRecord(sharedRecord);
+        return {
+            record: sharedRecord,
+        };
+    }
+    catch(e) {
+        console.warn("Failed to run shared record validation", {
+            record: sharedRecord,
+            error: e,
+        });
+        return {
+            error: e,
+        };
+    }
 }
 
 export async function shareCurrentWorksheet(worksheet: WorksheetRecord): Promise<string | null> {
     delete worksheet.id;
-    const share = stringify(worksheet, { rich: true, short: true });
+    const share = stringify(worksheet);
     const l = document.location;
     const location = `${l.origin}${l.pathname}${l.search}#${share}`;
 
@@ -52,8 +58,16 @@ export async function shareCurrentWorksheet(worksheet: WorksheetRecord): Promise
     }
     catch(e) {
         console.error("Failed to share current worksheet", e);
-        // document.location.replace(location);
     }
 
     return location;
 };
+
+function parse(str: string): WorksheetRecord {
+    return JSON.parse(atob(decodeURIComponent(str)));
+}
+
+function stringify(record: WorksheetRecord): string {
+    return encodeURIComponent(btoa(JSON.stringify(record)));
+}
+

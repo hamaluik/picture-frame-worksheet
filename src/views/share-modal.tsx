@@ -3,6 +3,7 @@ import { Button } from "../components/button";
 import { useId, useState } from "preact/hooks";
 import { Label } from "../components/label";
 import { Input } from "../components/input";
+import { Icon, IconType } from "../components/icon";
 
 export type ShareModalProps = {
     show: boolean;
@@ -62,7 +63,7 @@ export function ShareModal(props: ShareModalProps) {
                         <Input id={inputId} readonly={true} value={props.shareURL} />
                     </div>
                     <div class="flex flex-row gap-2 justify-end items-stretch">
-                        <Button onClick={onCopy}>{copyText}</Button>
+                        <Button onClick={onCopy} hoverLabel="Copy"><Icon type={IconType.Copy} /> {copyText}</Button>
                     </div>
                 </div>
             </form>

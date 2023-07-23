@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "preact/hooks";
 import { Modal } from "../components/modal";
 import { AppStateContext } from "../store/state";
-import { WorksheetRecord } from "../types/WorksheetRecord";
+import { WorksheetRecord, applyWorksheetRecord } from "../types/WorksheetRecord";
 import { Icon, IconType } from "../components/icon";
-import Dimension from "../types/Dimension";
+import { ButtonInline } from "../components/ButtonInline";
 
 export type LoadModalProps = {
     show: boolean;
@@ -26,20 +26,7 @@ export function LoadModal(props: LoadModalProps) {
     });
 
     const loadWorksheet = (worksheet: WorksheetRecord) => {
-        appState.worksheetID.value = worksheet.id;
-        appState.worksheetLabel.value = worksheet.label;
-        appState.title.value = worksheet.data.title;
-        appState.artist.value = worksheet.data.artist;
-        appState.mountType.value = worksheet.data.mountType;
-        appState.width.dim.value = new Dimension(worksheet.data.width);
-        appState.width.revealPre.value = new Dimension(worksheet.data.revealLeft);
-        appState.width.revealPost.value = new Dimension(worksheet.data.revealRight);
-        appState.height.dim.value = new Dimension(worksheet.data.height);
-        appState.height.revealPre.value = new Dimension(worksheet.data.revealTop);
-        appState.height.revealPost.value = new Dimension(worksheet.data.revealBottom);
-        appState.frameWidth.value = new Dimension(worksheet.data.frameWidth);
-        appState.frameDepth.value = new Dimension(worksheet.data.frameDepth);
-        
+        applyWorksheetRecord(worksheet, appState);
         props.setShow(false);
     };
 
@@ -72,12 +59,12 @@ export function LoadModal(props: LoadModalProps) {
                     <tbody>
                     { worksheets.filter((w) => !!w).map((worksheet) => (
                         <tr>
-                            <td class="p-2"><button class="hover:scale-110" onClick={()=>loadWorksheet(worksheet)}><Icon type={IconType.Load} /></button></td>
+                            <td class="p-2"><ButtonInline onClick={()=>loadWorksheet(worksheet)} hoverLabel="Load worksheet"><Icon type={IconType.Load} /></ButtonInline></td>
                             <td class="p-2 text-left">{worksheet.label}</td>
                             <td class="p-2 text-left">{worksheet.data.title}</td>
                             <td class="p-2 text-left">{worksheet.data.artist}</td>
                             <td class="p-2 text-left">{new Date(worksheet.modified).toLocaleString()}</td>
-                            <td class="p-2 text-red-500"><button class="hover:scale-110" onClick={()=>deleteWorksheet(worksheet.id!)}><Icon type={IconType.Delete} /></button></td>
+                            <td class="p-2 text-red-500"><ButtonInline onClick={()=>deleteWorksheet(worksheet.id!)} hoverLabel="Delete worksheet"><Icon type={IconType.Delete} /></ButtonInline></td>
                         </tr>
                     ))}
                     </tbody>

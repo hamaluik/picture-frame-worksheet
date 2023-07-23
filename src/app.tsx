@@ -15,7 +15,7 @@ import { SaveModal } from "./views/save-modal";
 import { MountType } from "./types/MountType";
 import Dimension from "./types/Dimension";
 import { shareCurrentWorksheet, tryLoadShare } from "./store/share";
-import { WorksheetRecord } from "./types/WorksheetRecord";
+import { applyWorksheetRecord, buildWorksheetRecord } from "./types/WorksheetRecord";
 import { ShareModal } from "./views/share-modal";
 
 export function App() {
@@ -28,37 +28,22 @@ export function App() {
     const [ shareURL, setShareURL ] = useState("");
 
     useEffect(() => {
+        console.debug(`Trying to load share from ${document.location.hash}...`);
         const share = tryLoadShare();
         if(share) {
-            if(share.errors) {
-                console.warn("failed to validate share", share.errors);
+            if(share.error || !share.record) {
+                console.warn("Failed to validate share", share.error);
             }
-            else {
-                console.info("loaded share", share.record);
+            else if(share.record) {
+                console.info("Loaded shared worksheet", share.record);
+                applyWorksheetRecord(share.record, appState);
             }
         }
-    }, [document.location.search]);
+        document.location.hash = "";
+    }, [document.location.hash]);
 
     const shareWorksheet = () => {
-        const worksheet: WorksheetRecord = {
-            label: appState.worksheetLabel.value,
-            modified: Date.now(),
-            data: {
-                title: appState.title.value,
-                artist: appState.artist.value,
-                mountType: appState.mountType.value,
-                width: appState.width.dim.value.input,
-                revealLeft: appState.width.revealPre.value.input,
-                revealRight: appState.width.revealPost.value.input,
-                height: appState.height.dim.value.input,
-                revealTop: appState.height.revealPre.value.input,
-                revealBottom: appState.height.revealPost.value.input,
-                frameWidth: appState.frameWidth.value.input,
-                frameDepth: appState.frameDepth.value.input,
-            }
-        };
-        
-        shareCurrentWorksheet(worksheet)
+        shareCurrentWorksheet(buildWorksheetRecord(appState))
             .then((url) => {
                 if(url !== null) {
                     setShareURL(url);
@@ -93,11 +78,11 @@ export function App() {
                         </h1>
                     </div>
                     <div class="col-span-2 print:hidden flex flex-row justify-stretch gap-2 items-center">
-                        <Button onClick={newWorksheet}><Icon type={IconType.New}/> New</Button>
-                        <Button onClick={() => setShowLoadModal(true)}><Icon type={IconType.Load}/> Load</Button>
-                        <Button onClick={() => setShowSaveModal(true)}><Icon type={IconType.Save}/> Save</Button>
-                        <Button onClick={shareWorksheet}><Icon type={IconType.Save}/> Share</Button>
-                        <Button onClick={() => window.print()}><Icon type={IconType.Print}/> Print</Button>
+                        <Button onClick={newWorksheet} hoverLabel="New"><Icon type={IconType.New}/> <span class="hidden md:inline">New</span></Button>
+                        <Button onClick={() => setShowLoadModal(true)} hoverLabel="Load"><Icon type={IconType.Load}/> <span class="hidden md:inline">Load</span></Button>
+                        <Button onClick={() => setShowSaveModal(true)} hoverLabel="Save"><Icon type={IconType.Save}/> <span class="hidden md:inline">Save</span></Button>
+                        <Button onClick={shareWorksheet} hoverLabel="Share"><Icon type={IconType.Share}/> <span class="hidden md:inline">Share</span></Button>
+                        <Button onClick={() => window.print()} hoverLabel="Print"><Icon type={IconType.Print}/> <span class="hidden md:inline">Print</span></Button>
                     </div>
                     <div class="col-span-2 print:col-span-6">
                         <Heading>Art Piece</Heading>

@@ -31,12 +31,12 @@ Michael Alm created an excellent [worksheet](https://www.almfab.com/store/p/free
 * Progressive web-app, fully offline enabled
 * Dark and print modes (print the page directly to get an organized, immediately useable worksheet to take into the shop)
 * Save and load worksheets to/from localstorage
+* Worksheet sharing links
 
 ### Planned
 
 * Tweaking “advanced” parameters such as rough stock buffer length, lip dimensions, etc
 * Optionally display jig cut-off dimensions (take into account the lip dimensions)
-* Worksheet sharing links
 * More default shape profiles to choose from
     + Beveled
     + Triangular
