@@ -44,7 +44,7 @@ export async function shareCurrentWorksheet(worksheet: WorksheetRecord): Promise
 
     const shareData = {
         title: "Picture Frame Worksheet",
-        text: "Share a picture frame worksheet",
+        text: `Picture frame dimensions for ${worksheet.data.title} by ${worksheet.data.artist}`,
         url: location,
     };
 

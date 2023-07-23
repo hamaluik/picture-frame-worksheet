@@ -28,19 +28,29 @@ export function App() {
     const [ shareURL, setShareURL ] = useState("");
 
     useEffect(() => {
-        console.debug(`Trying to load share from ${document.location.hash}...`);
-        const share = tryLoadShare();
-        if(share) {
-            if(share.error || !share.record) {
-                console.warn("Failed to validate share", share.error);
+        const onHashChange = () => {
+            if(!document.location.hash) return;
+            console.debug(`Trying to load share from ${document.location.hash}...`);
+            const share = tryLoadShare();
+            if(share) {
+                if(share.error || !share.record) {
+                    console.warn("Failed to validate share", share.error);
+                }
+                else if(share.record) {
+                    console.info("Loaded shared worksheet", share.record);
+                    applyWorksheetRecord(share.record, appState);
+                    setShowLoadModal(false);
+                    setShowSaveModal(false);
+                    setShowShareModal(false);
+                }
             }
-            else if(share.record) {
-                console.info("Loaded shared worksheet", share.record);
-                applyWorksheetRecord(share.record, appState);
-            }
-        }
-        document.location.hash = "";
-    }, [document.location.hash]);
+            document.location.hash = "";
+        };
+
+        onHashChange();
+        window.addEventListener('hashchange', onHashChange);
+        return () => window.removeEventListener('hashchange', onHashChange);
+    });
 
     const shareWorksheet = () => {
         shareCurrentWorksheet(buildWorksheetRecord(appState))
