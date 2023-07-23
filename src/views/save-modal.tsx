@@ -2,7 +2,7 @@ import { useContext } from "preact/hooks";
 import { Modal } from "../components/modal";
 import { AppStateContext } from "../store/state";
 import { Button } from "../components/button";
-import { WorksheetRecord } from "../store/db";
+import { WorksheetRecord } from "../types/WorksheetRecord";
 import { TextEntry } from "../components/text-entry";
 
 export type SaveModalProps = {

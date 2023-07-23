@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "preact/hooks";
 import { Modal } from "../components/modal";
 import { AppStateContext } from "../store/state";
-import { WorksheetRecord } from "../store/db";
+import { WorksheetRecord } from "../types/WorksheetRecord";
 import { Icon, IconType } from "../components/icon";
 import Dimension from "../types/Dimension";
 

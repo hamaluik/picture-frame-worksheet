@@ -1,4 +1,4 @@
-import { useContext, useState } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 import { AppStateContext } from "./store/state";
 import { MountTypeSelector } from "./views/mount-type-selector";
 import { InputEntry } from "./components/input-entry";
@@ -14,6 +14,9 @@ import { LoadModal } from "./views/load-modal";
 import { SaveModal } from "./views/save-modal";
 import { MountType } from "./types/MountType";
 import Dimension from "./types/Dimension";
+import { shareCurrentWorksheet, tryLoadShare } from "./store/share";
+import { WorksheetRecord } from "./types/WorksheetRecord";
+import { ShareModal } from "./views/share-modal";
 
 export function App() {
     const appState = useContext(AppStateContext);
@@ -21,6 +24,48 @@ export function App() {
 
     const [ showLoadModal, setShowLoadModal ] = useState(false);
     const [ showSaveModal, setShowSaveModal ] = useState(false);
+    const [ showShareModal, setShowShareModal ] = useState(false);
+    const [ shareURL, setShareURL ] = useState("");
+
+    useEffect(() => {
+        const share = tryLoadShare();
+        if(share) {
+            if(share.errors) {
+                console.warn("failed to validate share", share.errors);
+            }
+            else {
+                console.info("loaded share", share.record);
+            }
+        }
+    }, [document.location.search]);
+
+    const shareWorksheet = () => {
+        const worksheet: WorksheetRecord = {
+            label: appState.worksheetLabel.value,
+            modified: Date.now(),
+            data: {
+                title: appState.title.value,
+                artist: appState.artist.value,
+                mountType: appState.mountType.value,
+                width: appState.width.dim.value.input,
+                revealLeft: appState.width.revealPre.value.input,
+                revealRight: appState.width.revealPost.value.input,
+                height: appState.height.dim.value.input,
+                revealTop: appState.height.revealPre.value.input,
+                revealBottom: appState.height.revealPost.value.input,
+                frameWidth: appState.frameWidth.value.input,
+                frameDepth: appState.frameDepth.value.input,
+            }
+        };
+        
+        shareCurrentWorksheet(worksheet)
+            .then((url) => {
+                if(url !== null) {
+                    setShareURL(url);
+                    setShowShareModal(true);
+                }
+            })
+    };
 
     const newWorksheet = () => {
         appState.worksheetID.value = undefined;
@@ -51,6 +96,7 @@ export function App() {
                         <Button onClick={newWorksheet}><Icon type={IconType.New}/> New</Button>
                         <Button onClick={() => setShowLoadModal(true)}><Icon type={IconType.Load}/> Load</Button>
                         <Button onClick={() => setShowSaveModal(true)}><Icon type={IconType.Save}/> Save</Button>
+                        <Button onClick={shareWorksheet}><Icon type={IconType.Save}/> Share</Button>
                         <Button onClick={() => window.print()}><Icon type={IconType.Print}/> Print</Button>
                     </div>
                     <div class="col-span-2 print:col-span-6">
@@ -88,6 +134,7 @@ export function App() {
             </footer>
             <LoadModal show={showLoadModal} setShow={setShowLoadModal} />
             <SaveModal show={showSaveModal} setShow={setShowSaveModal} />
+            <ShareModal show={showShareModal} setShow={setShowShareModal} shareURL={shareURL} />
         </>
     );
 }

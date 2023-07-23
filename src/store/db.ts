@@ -1,26 +1,5 @@
 import { del, keys, set, values } from "idb-keyval";
-import { MountType } from "../types/MountType";
-
-export type WorksheetData = {
-    title: string;
-    artist: string;
-    mountType: MountType;
-    width: string;
-    revealLeft: string;
-    revealRight: string;
-    height: string;
-    revealTop: string;
-    revealBottom: string;
-    frameWidth: string;
-    frameDepth: string;
-};
-
-export type WorksheetRecord = {
-    id?: number;
-    label: string;
-    modified: number;
-    data: WorksheetData;
-};
+import { WorksheetRecord } from "../types/WorksheetRecord";
 
 export class Database {
     constructor() {}
