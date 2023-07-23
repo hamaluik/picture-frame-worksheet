@@ -1,8 +1,8 @@
 import { Signal } from "@preact/signals";
 import { useId } from "preact/compat";
-import { Label } from "./label";
-import { Input, TextAlign } from "./input";
-import { Dimension } from "./app-state";
+import Dimension from "../types/Dimension";
+import { Label } from "../components/label";
+import { Input, TextAlign } from "../components/input";
 
 export type CalculationDisplayProps = {
     label: string;

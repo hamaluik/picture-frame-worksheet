@@ -1,5 +1,6 @@
 import { useContext } from "preact/hooks";
-import { AppStateContext, Dimension } from "./app-state";
+import { AppStateContext } from "../store/state";
+import Dimension from "../types/Dimension";
 
 export function Profile() {
     const appState = useContext(AppStateContext);

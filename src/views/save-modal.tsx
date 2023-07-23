@@ -1,9 +1,9 @@
 import { useContext } from "preact/hooks";
-import { Modal } from "./modal";
-import { AppStateContext } from "./app-state";
-import { Button } from "./button";
-import { WorksheetRecord } from "./db";
-import { TextEntry } from "./text-entry";
+import { Modal } from "../components/modal";
+import { AppStateContext } from "../store/state";
+import { Button } from "../components/button";
+import { WorksheetRecord } from "../store/db";
+import { TextEntry } from "../components/text-entry";
 
 export type SaveModalProps = {
     show: boolean;

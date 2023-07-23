@@ -1,17 +1,19 @@
 import { useContext, useState } from "preact/hooks";
-import { AppStateContext, Dimension, MountType } from "./app-state";
-import { MountTypeSelector } from "./mount-type-selector";
-import { InputEntry } from "./input-entry";
-import { CalculationDisplay } from "./calculation-display";
-import { TextEntry } from "./text-entry";
-import { Heading } from "./heading";
-import { Profile } from "./profile";
-import { Cutlist } from "./cutlist";
-import { Logo } from "./logo";
-import { Button } from "./button";
-import { Icon, IconType } from "./icon";
-import { LoadModal } from "./load-modal";
-import { SaveModal } from "./save-modal";
+import { AppStateContext } from "./store/state";
+import { MountTypeSelector } from "./views/mount-type-selector";
+import { InputEntry } from "./components/input-entry";
+import { CalculationDisplay } from "./views/calculation-display";
+import { TextEntry } from "./components/text-entry";
+import { Heading } from "./components/heading";
+import { Profile } from "./views/profile";
+import { Cutlist } from "./views/cutlist";
+import { Logo } from "./components/logo";
+import { Button } from "./components/button";
+import { Icon, IconType } from "./components/icon";
+import { LoadModal } from "./views/load-modal";
+import { SaveModal } from "./views/save-modal";
+import { MountType } from "./types/MountType";
+import Dimension from "./types/Dimension";
 
 export function App() {
     const appState = useContext(AppStateContext);

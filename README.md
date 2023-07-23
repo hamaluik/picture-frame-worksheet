@@ -30,19 +30,20 @@ Michael Alm created an excellent [worksheet](https://www.almfab.com/store/p/free
 * A cutlist for rough dimensions and final dimensions
 * Progressive web-app, fully offline enabled
 * Dark and print modes (print the page directly to get an organized, immediately useable worksheet to take into the shop)
+* Save and load worksheets to/from localstorage
 
 ### Planned
 
-* Save and load worksheets to/from localstorage
-* Standardized to PDF version?
-    + Or just fix printing in iOS
+* Tweaking “advanced” parameters such as rough stock buffer length, lip dimensions, etc
+* Optionally display jig cut-off dimensions (take into account the lip dimensions)
+* Worksheet sharing links
 * More default shape profiles to choose from
     + Beveled
     + Triangular
+    + Lipped
+    + Rounded
 * Per-profile editable extra dimensions
 * A blank shape profile box to draw your own profile on
-* A preview of the final frame
 * Art depth calculations
-* Tweaking “advanced” parameters such as rough stock buffer length, lip dimensions, etc
-* UI for installing & updating the installed app
+* A preview of the final frame
 

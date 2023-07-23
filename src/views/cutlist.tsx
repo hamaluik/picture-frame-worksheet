@@ -1,6 +1,6 @@
 import { useContext } from "preact/hooks";
-import { AppStateContext } from "./app-state";
 import { parseVulgars } from "vulgar-fractions";
+import { AppStateContext } from "../store/state";
 
 export function Cutlist() {
     const appState = useContext(AppStateContext);

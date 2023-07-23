@@ -2,7 +2,7 @@ import { Signal } from "@preact/signals";
 import { useId, useState } from "preact/compat";
 import { Label } from "./label";
 import { Input, TextAlign } from "./input";
-import { Dimension } from "./app-state";
+import Dimension from "../types/Dimension";
 
 export type InputEntryProps = {
     label: string;

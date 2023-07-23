@@ -1,7 +1,9 @@
 import { useContext, useId } from "preact/hooks";
-import { AppStateContext, Dimension, MountType } from "./app-state"
 import { ChangeEvent } from "preact/compat";
-import { Label } from "./label";
+import { Label } from "../components/label";
+import { MountType } from "../types/MountType";
+import Dimension from "../types/Dimension";
+import { AppStateContext } from "../store/state";
 
 export function MountTypeSelector() {
     const appState = useContext(AppStateContext);

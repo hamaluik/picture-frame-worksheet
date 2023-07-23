@@ -1,5 +1,5 @@
 import { render } from "preact";
-import { AppStateContext, createAppState } from "./app-state";
+import { AppStateContext, createAppState } from "./store/state";
 import { App } from './app.tsx'
 import './index.css'
 import { registerSW} from "virtual:pwa-register";
