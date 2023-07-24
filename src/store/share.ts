@@ -6,15 +6,17 @@ export type ShareLoadResult = {
 };
 
 export function tryLoadShare(): ShareLoadResult | null {
-    if(!document.location.hash) return null;
+    const params = new URLSearchParams(document.location.search);
+    const sheet = params.get("sheet");
+    if(!sheet) return null;
 
     let sharedRecord: WorksheetRecord;
     try {
-        sharedRecord = parse(document.location.hash.substring(1));
+        sharedRecord = parse(sheet);
     }
     catch(e) {
         console.warn("Failed to parsed shared record", {
-            record: document.location.hash,
+            record: sheet,
             error: e,
         });
         return null;
@@ -40,7 +42,7 @@ export async function shareCurrentWorksheet(worksheet: WorksheetRecord): Promise
     delete worksheet.id;
     const share = stringify(worksheet);
     const l = document.location;
-    const location = `${l.origin}${l.pathname}${l.search}#${share}`;
+    const location = `${l.origin}${l.pathname}?sheet=${share}`;
 
     const shareData = {
         title: "Picture Frame Worksheet",
