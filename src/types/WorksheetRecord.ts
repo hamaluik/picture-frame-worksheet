@@ -41,6 +41,8 @@ export function buildWorksheetRecord(state: AppState): WorksheetRecord {
             revealBottom: state.height.revealPost.value.input,
             frameWidth: state.frameWidth.value.input,
             frameDepth: state.frameDepth.value.input,
+            material: state.material.value,
+            finish: state.finish.value,
         }
     };
 };
@@ -59,6 +61,7 @@ export function applyWorksheetRecord(worksheet: WorksheetRecord, state: AppState
     state.height.revealPost.value = new Dimension(worksheet.data.revealBottom);
     state.frameWidth.value = new Dimension(worksheet.data.frameWidth);
     state.frameDepth.value = new Dimension(worksheet.data.frameDepth);
-
+    state.material.value = worksheet.data.material;
+    state.finish.value = worksheet.data.finish;
 };
 

@@ -36,13 +36,18 @@ export type AppState = {
     title: Signal<string>;
     artist: Signal<string>;
     mountType: Signal<MountType>;
+
     width: DimState;
     height: DimState;
+
     frameWidth: Signal<Dimension>;
     frameDepth: Signal<Dimension>;
     lengthBuffer: Signal<Dimension>;
     horizontalLength: Signal<Dimension>;
     verticalLength: Signal<Dimension>;
+
+    material: Signal<string>;
+    finish: Signal<string>;
 
     db: Signal<Database | undefined>;
 };
@@ -58,6 +63,7 @@ export function createAppState(): AppState {
     const frameWidth = signal(new Dimension("1"));
     const frameDepth = signal(new Dimension("3/4"));
     const lengthBuffer = signal(new Dimension(1.0));
+
     const horizontalLength = computed(() => {
         return width.innerDim.value.add(frameWidth.value.mul(2).add(lengthBuffer.value));
     });
@@ -65,12 +71,15 @@ export function createAppState(): AppState {
         return height.innerDim.value.add(frameWidth.value.mul(2).add(lengthBuffer.value));
     });
 
+    const material = signal("");
+    const finish = signal("");
+
     const db = signal<Database | undefined>(undefined);
     Database.openDB()
         .then((d) => db.value = d)
         .catch((err) => console.error(`Failed to open DB: ${err}`));
 
-    return { worksheetID, worksheetLabel, title, artist, mountType, width, height, frameWidth, frameDepth, lengthBuffer, horizontalLength, verticalLength, db};
+    return { worksheetID, worksheetLabel, title, artist, mountType, width, height, frameWidth, frameDepth, lengthBuffer, horizontalLength, verticalLength, material, finish, db};
 };
 
 export const AppStateContext = createContext(createAppState());

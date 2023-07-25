@@ -17,6 +17,9 @@ import Dimension from "./types/Dimension";
 import { shareCurrentWorksheet, tryLoadShare } from "./store/share";
 import { applyWorksheetRecord, buildWorksheetRecord } from "./types/WorksheetRecord";
 import { ShareModal } from "./views/share-modal";
+import { AutoComplete } from "./components/AutoComplete";
+import Materials from "./store/Materials";
+import Finishes from "./store/Finishes";
 
 export function App() {
     const appState = useContext(AppStateContext);
@@ -67,6 +70,8 @@ export function App() {
         appState.height.revealPost.value = new Dimension("0");
         appState.frameWidth.value = new Dimension("1");
         appState.frameDepth.value = new Dimension("3/4");
+        appState.material.value = "";
+        appState.finish.value = "";
     };
 
     return (
@@ -110,6 +115,8 @@ export function App() {
                     <InputEntry label="Frame Depth" dim={appState.frameDepth} />
                     <CalculationDisplay label="Min. Horizontal Length (×2)" dim={appState.horizontalLength} />
                     <CalculationDisplay label="Min. Vertical Length (×2)" dim={appState.verticalLength} />
+                    <AutoComplete label="Material" value={appState.material.value} onInput={(v) => appState.material.value = v} options={Materials} />
+                    <AutoComplete label="Finish" value={appState.finish.value} onInput={(v) => appState.finish.value = v} options={Finishes} />
                     <div class="col-span-2 print:col-span-6"><Heading>Cutlist</Heading></div>
                     <div class="col-span-2 print:col-span-3 self-start"><Cutlist /></div>
                     <div class="col-span-2 print:col-span-3 self-start"><Profile /></div>

@@ -12,11 +12,13 @@ export type WorksheetData = {
     revealBottom: string;
     frameWidth: string;
     frameDepth: string;
+    material: string;
+    finish: string;
 };
 
 export function validate(data: WorksheetData) {
     if(!data) throw "Worksheet data is null or empty";
-    const properties = ['title', 'artist', 'width', 'revealLeft', 'revealRight', 'height', 'revealTop', 'revealBottom', 'frameWidth', 'frameDepth'];
+    const properties = ['title', 'artist', 'width', 'revealLeft', 'revealRight', 'height', 'revealTop', 'revealBottom', 'frameWidth', 'frameDepth', 'material', 'finish'];
     let dataObj = data as any;
     for(const property of properties) {
         if(!(property in dataObj) || typeof(dataObj[property]) !== "string" || dataObj[property] === null) {

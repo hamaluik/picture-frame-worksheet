@@ -38,6 +38,7 @@ Michael Alm created an excellent [worksheet](https://www.almfab.com/store/p/free
 * Tweaking “advanced” parameters such as rough stock buffer length, lip dimensions, etc
 * Optionally display jig cut-off dimensions (take into account the lip dimensions)
 * More default shape profiles to choose from
+    + Blank/empty/DIY
     + Beveled
     + Triangular
     + Lipped
@@ -45,5 +46,6 @@ Michael Alm created an excellent [worksheet](https://www.almfab.com/store/p/free
 * Per-profile editable extra dimensions
 * A blank shape profile box to draw your own profile on
 * Art depth calculations
+* Specify wood and finish
 * A preview of the final frame
 
