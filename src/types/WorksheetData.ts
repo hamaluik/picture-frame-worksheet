@@ -1,4 +1,5 @@
 import { MountType, validate as validateMountType } from "./MountType";
+import { deserializeProfile } from "./ProfileType";
 
 export type WorksheetData = {
     title: string;
@@ -14,6 +15,7 @@ export type WorksheetData = {
     frameDepth: string;
     material: string;
     finish: string;
+    profile: any;
 };
 
 export function validate(data: WorksheetData) {
@@ -25,8 +27,14 @@ export function validate(data: WorksheetData) {
             throw `Property ${property} missing or invalid: '${dataObj[property]}'`;
         }
     }
+
     if(!('mountType' in data)) {
         throw "mountType missing";
     }
     validateMountType(data.mountType);
+
+    if(!('profile' in data)) {
+        throw "profile missing";
+    }
+    deserializeProfile(data.profile);
 };

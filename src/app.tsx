@@ -20,6 +20,7 @@ import { ShareModal } from "./views/share-modal";
 import { AutoComplete } from "./components/AutoComplete";
 import Materials from "./store/Materials";
 import Finishes from "./store/Finishes";
+import { MakeBasicProfile } from "./types/ProfileType";
 
 export function App() {
     const appState = useContext(AppStateContext);
@@ -72,6 +73,7 @@ export function App() {
         appState.frameDepth.value = new Dimension("3/4");
         appState.material.value = "";
         appState.finish.value = "";
+        appState.profile.value = MakeBasicProfile();
     };
 
     return (

@@ -3,6 +3,7 @@ import { createContext } from 'preact';
 import { Database } from './db';
 import Dimension from '../types/Dimension';
 import { MountType } from '../types/MountType';
+import { MakeBasicProfile, ProfileType } from '../types/ProfileType';
 
 export type DimState = {
     dim: Signal<Dimension>,
@@ -49,6 +50,8 @@ export type AppState = {
     material: Signal<string>;
     finish: Signal<string>;
 
+    profile: Signal<ProfileType>;
+
     db: Signal<Database | undefined>;
 };
 
@@ -74,12 +77,14 @@ export function createAppState(): AppState {
     const material = signal("");
     const finish = signal("");
 
+    const profile = signal(MakeBasicProfile());
+
     const db = signal<Database | undefined>(undefined);
     Database.openDB()
         .then((d) => db.value = d)
         .catch((err) => console.error(`Failed to open DB: ${err}`));
 
-    return { worksheetID, worksheetLabel, title, artist, mountType, width, height, frameWidth, frameDepth, lengthBuffer, horizontalLength, verticalLength, material, finish, db};
+    return { worksheetID, worksheetLabel, title, artist, mountType, width, height, frameWidth, frameDepth, lengthBuffer, horizontalLength, verticalLength, material, finish, profile, db};
 };
 
 export const AppStateContext = createContext(createAppState());

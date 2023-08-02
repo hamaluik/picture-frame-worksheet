@@ -1,5 +1,6 @@
 import { AppState } from "../store/state";
 import Dimension from "./Dimension";
+import { deserializeProfile, serializeProfile } from "./ProfileType";
 import { WorksheetData, validate as validateWorksheetData } from "./WorksheetData";
 
 export type WorksheetRecord = {
@@ -43,6 +44,7 @@ export function buildWorksheetRecord(state: AppState): WorksheetRecord {
             frameDepth: state.frameDepth.value.input,
             material: state.material.value,
             finish: state.finish.value,
+            profile: serializeProfile(state.profile.value),
         }
     };
 };
@@ -63,5 +65,6 @@ export function applyWorksheetRecord(worksheet: WorksheetRecord, state: AppState
     state.frameDepth.value = new Dimension(worksheet.data.frameDepth);
     state.material.value = worksheet.data.material;
     state.finish.value = worksheet.data.finish;
+    state.profile.value = deserializeProfile(worksheet.data.profile);
 };
 
