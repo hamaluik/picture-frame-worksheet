@@ -19,7 +19,7 @@ export function BasicProfile() {
     const viewHeight = (d + (marginV * 2)) * scale;
 
     const lipDepth = new Dimension("1/4");
-    const lipThickness = new Dimension("1/4");
+    const lipThickness = appState.lip.value.add(appState.slop.value);
 
     const ld = lipDepth.decimal;
     const lt = lipThickness.decimal;

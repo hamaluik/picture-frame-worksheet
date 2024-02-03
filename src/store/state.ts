@@ -11,9 +11,10 @@ export type DimState = {
     revealPost: Signal<Dimension>,
     mountDim: Signal<Dimension>,
     innerDim: Signal<Dimension>,
+    cutDim: Signal<Dimension>,
 };
 
-function createDimState(baseDim: string): DimState {
+function createDimState(baseDim: string, lip: Signal<Dimension>, slop: Signal<Dimension>): DimState {
     const dim = signal(new Dimension(baseDim));
     const revealPre = signal(new Dimension("0"));
     const revealPost = signal(new Dimension("0"));
@@ -21,14 +22,21 @@ function createDimState(baseDim: string): DimState {
         return dim.value.add(revealPre.value).add(revealPost.value);
     });
     const innerDim = computed(() => {
-        const result = mountDim.value.sub(new Dimension("1/8"));
-        if(result.decimal < 0.0) {
+        const result = mountDim.value.sub(lip.value);
+        if (result.decimal < 0.0) {
             return new Dimension(0.0);
         }
         return result;
-    })
+    });
+    const cutDim = computed(() => {
+        const result = mountDim.value.add(slop.value);
+        if (result.decimal < 0.0) {
+            return new Dimension(0.0);
+        }
+        return result;
+    });
 
-    return { dim, revealPre, revealPost, mountDim, innerDim };
+    return { dim, revealPre, revealPost, mountDim, innerDim, cutDim };
 }
 
 export type AppState = {
@@ -50,6 +58,8 @@ export type AppState = {
     material: Signal<string>;
     finish: Signal<string>;
 
+    lip: Signal<Dimension>;
+    slop: Signal<Dimension>;
     profile: Signal<ProfileType>;
 
     db: Signal<Database | undefined>;
@@ -61,17 +71,23 @@ export function createAppState(): AppState {
     const title = signal("");
     const artist = signal("");
     const mountType = signal(MountType.Flush);
-    const width = createDimState("6");
-    const height = createDimState("4");
+    const lip = signal(new Dimension("1/8"));
+    const slop = signal(new Dimension("1/8"));
+    const width = createDimState("6", lip, slop);
+    const height = createDimState("4", lip, slop);
     const frameWidth = signal(new Dimension("1"));
     const frameDepth = signal(new Dimension("3/4"));
-    const lengthBuffer = signal(new Dimension(1.0));
+    const lengthBuffer = signal(new Dimension("1/2"));
 
     const horizontalLength = computed(() => {
-        return width.innerDim.value.add(frameWidth.value.mul(2).add(lengthBuffer.value));
+        return width.innerDim.value
+            .add(slop.value)
+            .add(frameWidth.value.mul(2).add(lengthBuffer.value));
     });
     const verticalLength = computed(() => {
-        return height.innerDim.value.add(frameWidth.value.mul(2).add(lengthBuffer.value));
+        return height.innerDim.value
+            .add(slop.value)
+            .add(frameWidth.value.mul(2).add(lengthBuffer.value));
     });
 
     const material = signal("");
@@ -84,7 +100,26 @@ export function createAppState(): AppState {
         .then((d) => db.value = d)
         .catch((err) => console.error(`Failed to open DB: ${err}`));
 
-    return { worksheetID, worksheetLabel, title, artist, mountType, width, height, frameWidth, frameDepth, lengthBuffer, horizontalLength, verticalLength, material, finish, profile, db};
+    return {
+        worksheetID,
+        worksheetLabel,
+        title,
+        artist,
+        mountType,
+        width,
+        height,
+        frameWidth,
+        frameDepth,
+        lengthBuffer,
+        horizontalLength,
+        verticalLength,
+        material,
+        finish,
+        lip,
+        slop,
+        profile,
+        db
+    };
 };
 
 export const AppStateContext = createContext(createAppState());

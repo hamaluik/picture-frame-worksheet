@@ -73,6 +73,8 @@ export function App() {
         appState.frameDepth.value = new Dimension("3/4");
         appState.material.value = "";
         appState.finish.value = "";
+        appState.lip.value = new Dimension("1/8");
+        appState.slop.value = new Dimension("1/8");
         appState.profile.value = MakeBasicProfile();
     };
 
@@ -108,6 +110,8 @@ export function App() {
                     {appState.mountType.value != MountType.Flush ? <InputEntry label="Reveal Bottom" dim={appState.height.revealPost} /> : null}
                     {appState.mountType.value != MountType.Flush ? <CalculationDisplay label="Mount Width" dim={appState.width.mountDim} /> : null}
                     {appState.mountType.value != MountType.Flush ? <CalculationDisplay label="Mount Height" dim={appState.height.mountDim} /> : null}
+                    <InputEntry label="Lip" dim={appState.lip} />
+                    <InputEntry label="Slop" dim={appState.slop} />
                     <CalculationDisplay label="Inner Width" dim={appState.width.innerDim} />
                     <CalculationDisplay label="Inner Height" dim={appState.height.innerDim} />
                     <div class="col-span-2 print:col-span-6">

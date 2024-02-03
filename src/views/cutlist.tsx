@@ -38,16 +38,19 @@ export function Cutlist() {
                     <tr class="border-b-2 border-gray-800 dark:border-gray-100 print:border-black">
                         <th class="text-right p-2">Count</th>
                         <th class="text-right p-2">Inner Length</th>
+                        <th class="text-right p-2">Cut Length</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td class="text-right p-2">2×</td>
                         <td class="text-right p-2">{parseVulgars(appState.width.innerDim.value.display)}</td>
+                        <td class="text-right p-2">{parseVulgars(appState.width.cutDim.value.display)}</td>
                     </tr>
                     <tr>
                         <td class="text-right p-2">2×</td>
                         <td class="text-right p-2">{parseVulgars(appState.height.innerDim.value.display)}</td>
+                        <td class="text-right p-2">{parseVulgars(appState.height.cutDim.value.display)}</td>
                     </tr>
                 </tbody>
             </table>
