@@ -6,23 +6,33 @@ import Dimension from "../types/Dimension";
 
 export type InputEntryProps = {
     label: string;
-    dim: Signal<Dimension>;
+    dim?: Signal<Dimension>;
+    valueProvider?: () => string;
+    valueSetter?: (val: string) => boolean;
 }
 
 export function InputEntry(props: InputEntryProps) {
     const [isError, setIsError] = useState(false);
 
     let onInput = (inp: string) => {
-        props.dim.value = new Dimension(inp);
-        setIsError(props.dim.value.isError);
+        if(!!props.dim) {
+            props.dim.value = new Dimension(inp);
+            setIsError(props.dim.value.isError);
+        }
+        else if(!!props.valueSetter) {
+            setIsError(props.valueSetter(inp)!);
+        }
     };
 
     const inputId = useId();
-    
-   return (
+    const value = !!props.dim
+        ? props.dim.value.input
+        : props.valueProvider()!;
+
+    return (
         <div class="mb-4">
             <Label id={inputId} isError={isError}>{props.label}</Label>
-            <Input id={inputId} value={props.dim.value.input} onInput={onInput} isError={isError} align={TextAlign.Right} />
+            <Input id={inputId} value={value} onInput={onInput} isError={isError} align={TextAlign.Right} />
         </div>
-   ); 
+    ); 
 }

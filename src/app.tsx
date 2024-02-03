@@ -70,7 +70,7 @@ export function App() {
         appState.height.revealPre.value = new Dimension("0");
         appState.height.revealPost.value = new Dimension("0");
         appState.frameWidth.value = new Dimension("1");
-        appState.frameDepth.value = new Dimension("3/4");
+        appState.frameDepth.value = new Dimension("1");
         appState.material.value = "";
         appState.finish.value = "";
         appState.lip.value = new Dimension("1/8");

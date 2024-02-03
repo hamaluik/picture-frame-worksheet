@@ -59,6 +59,7 @@ export type AppState = {
     finish: Signal<string>;
 
     lip: Signal<Dimension>;
+    lipDepth: Signal<Dimension>;
     slop: Signal<Dimension>;
     profile: Signal<ProfileType>;
 
@@ -72,11 +73,12 @@ export function createAppState(): AppState {
     const artist = signal("");
     const mountType = signal(MountType.Flush);
     const lip = signal(new Dimension("1/8"));
+    const lipDepth = signal(new Dimension("1/4"));
     const slop = signal(new Dimension("1/8"));
     const width = createDimState("6", lip, slop);
     const height = createDimState("4", lip, slop);
     const frameWidth = signal(new Dimension("1"));
-    const frameDepth = signal(new Dimension("3/4"));
+    const frameDepth = signal(new Dimension("1"));
     const lengthBuffer = signal(new Dimension("1/2"));
 
     const horizontalLength = computed(() => {
@@ -108,6 +110,9 @@ export function createAppState(): AppState {
         mountType,
         width,
         height,
+        lip,
+        lipDepth,
+        slop,
         frameWidth,
         frameDepth,
         lengthBuffer,
@@ -115,8 +120,6 @@ export function createAppState(): AppState {
         verticalLength,
         material,
         finish,
-        lip,
-        slop,
         profile,
         db
     };

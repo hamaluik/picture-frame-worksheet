@@ -3,7 +3,9 @@ import { AppStateContext } from "../store/state";
 import { ProfileTypeEnum } from "../types/ProfileType";
 import { BasicProfile } from "./profiles/basic-profile";
 import { BlankProfile } from "./profiles/blank-profile";
+import { BevelledProfile } from "./profiles/bevelled-profile";
 import { ProfileTypeSelector } from "./profile-type-selector";
+import { ProfileEditor } from "./profile-editor";
 
 export function Profile() {
     const appState = useContext(AppStateContext);
@@ -14,14 +16,17 @@ export function Profile() {
             profileDisplay = (<BlankProfile />);
             break;
         case ProfileTypeEnum.Basic:
-        case ProfileTypeEnum.Bevelled:
             profileDisplay = (<BasicProfile />);
+            break;
+        case ProfileTypeEnum.Bevelled:
+            profileDisplay = (<BevelledProfile />);
             break;
     };
 
     return (
         <div class="flex flex-col items-stretch justify-start">
             <ProfileTypeSelector />
+            <ProfileEditor />
             {profileDisplay}
         </div>
     );

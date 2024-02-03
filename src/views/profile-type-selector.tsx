@@ -20,7 +20,7 @@ export function ProfileTypeSelector() {
                     appState.profile.value = MakeBasicProfile();
                     break;
                 case ProfileTypeEnum.Bevelled:
-                    appState.profile.value = MakeBevelledProfile(new Dimension(0));
+                    appState.profile.value = MakeBevelledProfile(new Dimension("1/4"));
                     break;
             };
         }

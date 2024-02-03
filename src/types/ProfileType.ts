@@ -24,11 +24,11 @@ export function MakeBasicProfile(): BasicProfile {
 
 export type BevelledProfile = {
     id: ProfileTypeEnum.Bevelled,
-    bevelWidth: Dimension,
+    bevelDepth: Dimension,
 };
 
-export function MakeBevelledProfile(bevelWidth: Dimension): BevelledProfile {
-    return { id: ProfileTypeEnum.Bevelled, bevelWidth };
+export function MakeBevelledProfile(bevelDepth: Dimension): BevelledProfile {
+    return { id: ProfileTypeEnum.Bevelled, bevelDepth: bevelDepth };
 };
 
 export type ProfileType = BlankProfile | BasicProfile | BevelledProfile;
@@ -39,7 +39,7 @@ export function serializeProfile(profile: ProfileType): any {
         case ProfileTypeEnum.Basic:
             return { id: profile.id };
         case ProfileTypeEnum.Bevelled:
-            return { id: profile.id, bevelWidth: profile.bevelWidth.display };
+            return { id: profile.id, bevelWidth: profile.bevelDepth.display };
     }
 };
 
@@ -53,7 +53,7 @@ export function deserializeProfile(profile: any): ProfileType {
             if(profile.bevelWidth === null || profile.bevelWidth === undefined || typeof(profile.bevelWidth) !== "string") {
                 throw `Invalid bevel profile, bevelWidth is not set: ${JSON.stringify(profile)}`;
             }
-            return { id: ProfileTypeEnum.Bevelled, bevelWidth: new Dimension(profile.bevelWidth) };
+            return { id: ProfileTypeEnum.Bevelled, bevelDepth: new Dimension(profile.bevelWidth) };
     }
 
     throw `Invalid profile: ${JSON.stringify(profile)}`;
