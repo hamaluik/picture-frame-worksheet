@@ -31,6 +31,14 @@ export function Cutlist() {
                         <td class="text-right p-2">{parseVulgars(appState.frameDepth.value.display)}</td>
                     </tr>
                 </tbody>
+                <tfoot>
+                    <tr class="border-t-2 border-gray-800 dark:border-gray-100 print:border-black">
+                        <td class="text-right p2 font-bold">Total</td>
+                        <td class="text-right p-2">{parseVulgars(appState.verticalLength.value.add(appState.horizontalLength.value).mul(2).display)}</td>
+                        <td class="text-right p-2">{parseVulgars(appState.frameWidth.value.display)}</td>
+                        <td class="text-right p-2">{parseVulgars(appState.frameDepth.value.display)}</td>
+                    </tr>
+                </tfoot>
             </table>
             <h3 class="font-semibold text-l text-gray-800 dark:text-gray-100 print:text-black">Frame</h3>
             <table class="table-auto self-center border-collapse border-spacing-0 text-gray-800 dark:text-gray-100 print:text-black">
