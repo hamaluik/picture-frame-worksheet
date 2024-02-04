@@ -25,9 +25,16 @@ export function InputEntry(props: InputEntryProps) {
     };
 
     const inputId = useId();
-    const value = !!props.dim
-        ? props.dim.value.input
-        : props.valueProvider()!;
+    let value;
+    if (!!props.dim) {
+        value = props.dim.value.input;
+    }
+    else if (!!props.valueProvider) {
+        value = props.valueProvider();
+    }
+    else {
+        value = "";
+    }
 
     return (
         <div class="mb-4">
